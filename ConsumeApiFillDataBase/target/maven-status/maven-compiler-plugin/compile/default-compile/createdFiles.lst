@@ -1,0 +1,6 @@
+consume\api\util\ReadPropertyFile.class
+consume\api\ConsumeApiFillDataBase$1.class
+consume\api\sqlConn\SqlConnection.class
+consume\api\ConsumeApiFillDataBase.class
+consume\api\ParseApiInformation.class
+consume\api\ConnectConsumeApi.class

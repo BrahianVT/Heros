@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import java.util.List;
+
 
 public interface ComicRepositoryInterface extends PagingAndSortingRepository<Comic, Integer> {
 
@@ -15,4 +15,16 @@ public interface ComicRepositoryInterface extends PagingAndSortingRepository<Com
 
     @Query(value = "select c.last_sync from comic c where c.id_hero = ?1 order by c.last_sync desc limit 1", nativeQuery = true)
     String findByLastSync(int idHero);
+
+    @Query(value = "SELECT DISTINCT c.name_writer from comic c where c.id_hero = ?1 and c.name_writer is not null"
+            , nativeQuery = true, countQuery = "SELECT COUNT(DISTINCT c.name_writer) from comic c where c.id_hero = ?1 and c.name_writer is not null")
+    Page<String> getWriterByHero(int idHero, Pageable pageable);
+
+    @Query(value = "SELECT DISTINCT c.name_editor from comic c where c.id_hero = ?1 and c.name_editor is not null"
+            , nativeQuery = true, countQuery = "SELECT COUNT(DISTINCT c.name_editor) from comic c where c.id_hero = ?1 and c.name_editor is not null")
+    Page<String> getEditorByHero(int idHero, Pageable pageable);
+
+    @Query(value = "SELECT DISTINCT c.name_colorist from comic c where c.id_hero = ?1 and c.name_colorist is not null"
+            , nativeQuery = true, countQuery = "SELECT COUNT(DISTINCT c.name_colorist) from comic c where c.id_hero = ?1 and c.name_colorist is not null")
+    Page<String> getColoristByHero(int idHero, Pageable pageable);
 }

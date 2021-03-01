@@ -1,6 +1,7 @@
 package com.ApiRest.RestApi.service;
 
 
+import com.ApiRest.RestApi.entities.HeroCollaborator;
 import com.ApiRest.RestApi.entities.HeroInteraction;
 import com.ApiRest.RestApi.entities.HeroInteractionWrapper;
 import com.ApiRest.RestApi.repository.ComicRepositoryInterface;
@@ -29,7 +30,6 @@ public class ComicRepositoryService implements ComicRepositoryServiceInterface {
     public HeroInteractionWrapper getInteractionsByHero(int idHero,int pageN, int pageSize) {
         Pageable paging = PageRequest.of(pageN, pageSize);
         Page<Object[]> aux = comicRepositoryInterface.getInteractionsByHero(idHero, paging);
-        //List<Object[]> aux  = comicRepositoryInterface.getInteractionsByHero(idHero);
         List<HeroInteraction> res = new ArrayList<>();
         for(Object[] a: aux.toList()){
             res.add(new HeroInteraction("" + a[0], "" + a[1]));
@@ -43,6 +43,25 @@ public class ComicRepositoryService implements ComicRepositoryServiceInterface {
     public String findByLastSync(int idHero) {
         String lastDate = comicRepositoryInterface.findByLastSync(idHero);
         return lastDate;
+    }
+
+    @Override
+    public HeroCollaborator getHeroCollaboratorByHero(int idHero, int pageN, int pageSize) {
+        Pageable paging = PageRequest.of(pageN, pageSize);
+        Page<String> pageWriter = comicRepositoryInterface.getWriterByHero(idHero, paging);
+        List<String> writers = pageWriter.toList();
+
+        paging = PageRequest.of(pageN, pageSize);
+        Page<String> pageEditor = comicRepositoryInterface.getWriterByHero(idHero, paging);
+        List<String> editors = pageWriter.toList();
+
+        paging = PageRequest.of(pageN, pageSize);
+        Page<String> pageColorist = comicRepositoryInterface.getColoristByHero(idHero, paging);
+        List<String> colorist = pageColorist.toList();
+
+        String lastDate = findByLastSync(idHero);
+        HeroCollaborator heroCol = new HeroCollaborator(lastDate, writers, editors, colorist);
+        return heroCol;
     }
 
 

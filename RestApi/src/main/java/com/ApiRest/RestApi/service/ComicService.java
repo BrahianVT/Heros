@@ -16,6 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase de la capa de servicio para armar el resultado a retornar en los endpoints
+ * @author BrahianVT
+ * */
 @Service
 @Transactional
 @Slf4j

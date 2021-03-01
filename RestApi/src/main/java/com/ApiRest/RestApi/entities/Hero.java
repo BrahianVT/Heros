@@ -6,6 +6,11 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+
+/**
+ * Clase entidad que persite a base de datos, tabla: hero
+ * @author BrahianVT
+ * */
 @Data
 @Entity
 @Table(name = "hero")

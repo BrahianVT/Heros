@@ -7,6 +7,10 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Clase entidad que persite a base de datos, tabla: comic
+ * @author BrahianVT
+ * */
 @Data
 @Entity
 @Table(name = "comic")

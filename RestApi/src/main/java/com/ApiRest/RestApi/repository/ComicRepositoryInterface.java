@@ -6,7 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-
+/**
+ *
+ * Repositorio donde se realizan queries para traer la informacion de la base de datos
+ * @author BrahianVT
+ * */
 public interface ComicRepositoryInterface extends PagingAndSortingRepository<Comic, Integer> {
 
     @Query(value = "select h.name_hero, GROUP_CONCAT(c.name_comic SEPARATOR ', ') from comic c inner join interaction i on c.id_comic = i.id_comic inner join hero h on i.id_hero_interaction = h.id_hero where c.id_hero = ?1 group by h.name_hero"

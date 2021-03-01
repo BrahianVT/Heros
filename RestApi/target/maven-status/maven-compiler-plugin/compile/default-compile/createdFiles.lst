@@ -1,0 +1,10 @@
+com\ApiRest\RestApi\entities\Hero.class
+com\ApiRest\RestApi\entities\Comic.class
+com\ApiRest\RestApi\entities\HeroCollaborator.class
+com\ApiRest\RestApi\repository\ComicRepositoryInterface.class
+com\ApiRest\RestApi\entities\HeroInteraction.class
+com\ApiRest\RestApi\entities\HeroInteractionWrapper.class
+com\ApiRest\RestApi\RestApiApplication.class
+com\ApiRest\RestApi\restController\ComicController.class
+com\ApiRest\RestApi\service\ComicService.class
+com\ApiRest\RestApi\service\ComicServiceInterface.class

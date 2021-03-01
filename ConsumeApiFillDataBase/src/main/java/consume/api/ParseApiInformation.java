@@ -16,28 +16,27 @@ import java.time.format.DateTimeFormatter;
  * @author Brahian VT
  * */
 public class ParseApiInformation {
-    SqlConnection conn = new SqlConnection();
+    SqlConnection conn;
     String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     ObjectMapper mapper;
     ObjectNode root;
     JsonNode data;
 
     // obtiene el result y comienza a parsear informacion
-    public void readJson(String result) throws IOException {
+    public void readJson(String result, SqlConnection conn) throws IOException {
+        this.conn = conn;
         mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         root = (ObjectNode) mapper.readTree(result);
         data = root.get("data");
-
     }
 
     public boolean hasData(){ return data.get("results").size() > 0;  }
 
     public void  parseInformation(int idMainHero){
         for (final JsonNode objNode : data.get("results")) {
-            System.out.println("---------------------------------------------");
-            conn.openConnection();
             int idComic = objNode.get("id").intValue();
+            if(conn.checkComic(idComic))continue;
             String nameComic = objNode.get("title").textValue();
             String writer ="", editor="", colorist="";
             if(objNode.get("creators").get("items").size() > 0){
@@ -60,6 +59,6 @@ public class ParseApiInformation {
                 }
             }
         }
-        conn.disconnect();
+
     }
 }

@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.Properties;
 
 /**
- * Clase que gestiona conexiones a la base de datos
+ * Clase que gestiona conexiones a la base de datos y realiza inserts a la base de datos
  * @author BrahianVT
  * */
 public class SqlConnection {
@@ -57,6 +57,18 @@ public class SqlConnection {
         return false;
     }
 
+    public  boolean checkComic(int idComic){
+        String query = "select id_comic from comic where id_comic = " + idComic;
+        ResultSet resultSet = executeStatements(query);
+        try {
+            if(resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); return false;
+        }
+        return false;
+    }
     public boolean checkInteraction(int idComic, int idHero){
         String query = "select id_comic from interaction where id_comic = " + idComic + " and id_hero_interaction = " + idHero;
         ResultSet resultSet = executeStatements(query);
@@ -133,7 +145,6 @@ public class SqlConnection {
     }
 
     private void executeUpdates(String query){
-        System.out.println(query);
         try{
             Statement statement = conn.createStatement();
             statement.executeUpdate(query);

@@ -35,7 +35,7 @@ public class ConsumeApiFillDataBase {
         String url = URL_BASE_API + idManHero + "/";
         sql.openConnection();
         LocalDate from = sql.getLastDateSync();
-        sql.disconnect();
+
         if(from == null){
             url+="comics?format=comic&formatType=comic&orderBy=onsaleDate&offset="+ OFFSET+"&limit=" + LIMIT +
                     "&ts=" + config.getProperty("ts") + "&apikey="+config.getProperty("apikey") + "&hash="+config.getProperty("hash");
@@ -51,16 +51,22 @@ public class ConsumeApiFillDataBase {
         idManHero = config.getProperty("idCap");
         url = url.replaceFirst("1009368", idManHero);
         consumeApi(url);
+
+        sql.disconnect();
     }
 
     public void consumeApi(String url) throws  IOException {
         while(true) {
             BufferedReader br = consumeApi.getBufferedReader(url);
             String outputApi = br.readLine();
-            parse.readJson(outputApi);
+            parse.readJson(outputApi, sql);
             if(!parse.hasData())break;
 
-            parse.parseInformation(Integer.parseInt(idManHero));
+            Thread t = new Thread(() ->{
+                parse.parseInformation(Integer.parseInt(idManHero));
+            });
+            t.run();
+
             url = url.replaceFirst("offset=" + OFFSET ,"offset=" + (OFFSET + LIMIT));
             OFFSET += LIMIT;
         }

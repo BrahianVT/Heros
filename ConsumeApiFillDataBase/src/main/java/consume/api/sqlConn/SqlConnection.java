@@ -57,6 +57,20 @@ public class SqlConnection {
         return false;
     }
 
+    public boolean checkInteraction(int idComic, int idHero){
+        String query = "select id_comic from interaction where id_comic = " + idComic + " and id_hero_interaction = " + idHero;
+        ResultSet resultSet = executeStatements(query);
+        try {
+            if(resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); return false;
+        }
+        return false;
+    }
+
+
     public void insertHero(int idHero, String name){
         String query = "INSERT INTO hero(id_hero, name_hero)" +
                 "VALUES (" + idHero + ",\"" + name + "\")";
@@ -88,7 +102,6 @@ public class SqlConnection {
         String query = "INSERT INTO interaction(id_comic, id_hero_interaction)" +
                 "VALUES (" + idComic + "," + idHeroIn + ")";
 
-        System.out.println(query);
         executeUpdates(query);
     }
     // Checar cual fue la ultima fecha de actualizacion

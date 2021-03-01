@@ -4,17 +4,9 @@ import consume.api.sqlConn.SqlConnection;
 import consume.api.util.ReadPropertyFile;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.math.BigDecimal;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,7 +35,7 @@ public class ConsumeApiFillDataBase {
         String url = URL_BASE_API + idManHero + "/";
         sql.openConnection();
         LocalDate from = sql.getLastDateSync();
-
+        sql.disconnect();
         if(from == null){
             url+="comics?format=comic&formatType=comic&orderBy=onsaleDate&offset="+ OFFSET+"&limit=" + LIMIT +
                     "&ts=" + config.getProperty("ts") + "&apikey="+config.getProperty("apikey") + "&hash="+config.getProperty("hash");
@@ -62,12 +54,12 @@ public class ConsumeApiFillDataBase {
     }
 
     public void consumeApi(String url) throws  IOException {
-        System.out.println(url);
         while(true) {
             BufferedReader br = consumeApi.getBufferedReader(url);
             String outputApi = br.readLine();
             parse.readJson(outputApi);
             if(!parse.hasData())break;
+
             parse.parseInformation(Integer.parseInt(idManHero));
             url = url.replaceFirst("offset=" + OFFSET ,"offset=" + (OFFSET + LIMIT));
             OFFSET += LIMIT;
@@ -92,15 +84,9 @@ public class ConsumeApiFillDataBase {
                 }
             }
         }, 0, 1 * minuteAtSeconds * 1000);
-    /**/
+
 
     }
 
-    private File parse(){
-        File jsonFile = new File("test.json").getAbsoluteFile();
-        if(jsonFile == null) System.out.println("error esta vacio");
-        return jsonFile;
-
-    }
 
 }

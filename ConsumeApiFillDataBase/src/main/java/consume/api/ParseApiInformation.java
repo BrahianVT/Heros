@@ -50,14 +50,13 @@ public class ParseApiInformation {
             }
             conn.insertComic(idComic,nameComic, writer, editor, colorist,idMainHero,now);
 
-
             if(objNode.get("characters").get("items").size() > 0){
                 for(final JsonNode objCreator: objNode.get("characters").get("items")){
                     int heroId  = Integer.parseInt(objCreator.get("resourceURI").textValue().substring(47));
                     String nameHero = objCreator.get("name").textValue();
                     if(idMainHero == heroId)continue;
                     if(!conn.checkHero(heroId))conn.insertHero(heroId, nameHero);
-                    conn.insertInteraction(idComic, heroId);
+                    if(!conn.checkInteraction(idComic, heroId)) conn.insertInteraction(idComic, heroId);
                 }
             }
         }

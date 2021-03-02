@@ -1,11 +1,11 @@
 version: '3.6'
 services:
-  restApi:
-    container_name: restApi
-    image: api-rest:1.0
+  restApiM:
+    container_name: restApiM
+    image: api-rest-m:1.0
     environment:
       Lang: en_us.utf-8
     ports:
-      - "8080:8080"
+      - "80:80"
      
     

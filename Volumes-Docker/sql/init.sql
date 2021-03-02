@@ -31,3 +31,5 @@ INSERT INTO hero(id_hero, name_hero)VALUES (1009368,'Iron Man');
 INSERT INTO hero(id_hero, name_hero)VALUES (1009220,'Captain America');
 
 
+
+
